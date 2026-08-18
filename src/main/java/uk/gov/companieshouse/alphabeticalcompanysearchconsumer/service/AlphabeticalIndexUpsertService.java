@@ -3,6 +3,7 @@ package uk.gov.companieshouse.alphabeticalcompanysearchconsumer.service;
 import java.util.function.Supplier;
 import org.springframework.stereotype.Component;
 import uk.gov.companieshouse.alphabeticalcompanysearchconsumer.mapper.CompanyProfileMapper;
+import uk.gov.companieshouse.alphabeticalcompanysearchconsumer.config.ApiProperties;
 import uk.gov.companieshouse.api.InternalApiClient;
 import uk.gov.companieshouse.api.error.ApiErrorResponseException;
 import uk.gov.companieshouse.api.handler.exception.URIValidationException;
@@ -20,11 +21,13 @@ public class AlphabeticalIndexUpsertService {
     private final ApiClientService apiClientService;
     private final Logger logger;
     private final CompanyProfileMapper mapper;
+    private final ApiProperties apiProperties;
 
-    public AlphabeticalIndexUpsertService(ApiClientService apiClientService, Logger logger, CompanyProfileMapper mapper) {
+    public AlphabeticalIndexUpsertService(ApiClientService apiClientService, Logger logger, CompanyProfileMapper mapper, ApiProperties apiProperties) {
         this.apiClientService = apiClientService;
         this.logger = logger;
         this.mapper = mapper;
+        this.apiProperties = apiProperties;
     }
 
     public void upsertCompany(final ServiceParameters parameters)
@@ -35,7 +38,7 @@ public class AlphabeticalIndexUpsertService {
 
         String companyNumber = data.getResourceId();
         String companyResourceUri = data.getResourceUri();
-        String resourceUri = String.format("/alphabetical-search/companies/%s", companyNumber);
+        String resourceUri = String.format("%s/%s", apiProperties.alphabeticalSearchUri(), companyNumber);
 
         CompanyProfileApi companyProfileApi = mapper.mapToCompanyProfile(data.getData());
 
