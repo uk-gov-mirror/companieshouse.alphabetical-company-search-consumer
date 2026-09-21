@@ -3,6 +3,7 @@ package uk.gov.companieshouse.alphabeticalcompanysearchconsumer.config;
 import static uk.gov.companieshouse.alphabeticalcompanysearchconsumer.Application.NAMESPACE;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -15,6 +16,7 @@ import uk.gov.companieshouse.logging.Logger;
 import uk.gov.companieshouse.logging.LoggerFactory;
 
 @Configuration
+@EnableConfigurationProperties(ApiProperties.class)
 public class ApplicationConfig implements WebMvcConfigurer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(NAMESPACE);
