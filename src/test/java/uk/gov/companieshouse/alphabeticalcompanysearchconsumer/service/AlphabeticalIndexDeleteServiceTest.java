@@ -13,6 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import uk.gov.companieshouse.alphabeticalcompanysearchconsumer.config.ApiProperties;
 import uk.gov.companieshouse.api.InternalApiClient;
 import uk.gov.companieshouse.api.error.ApiErrorResponseException;
 import uk.gov.companieshouse.api.handler.exception.URIValidationException;
@@ -30,6 +31,10 @@ public class AlphabeticalIndexDeleteServiceTest {
 
     @Mock
     private ApiClientService apiClientService;
+
+    @Mock
+    private ApiProperties apiProperties;
+
 
     @Mock
     private Supplier<InternalApiClient> internalApiClientSupplier;
@@ -51,6 +56,7 @@ public class AlphabeticalIndexDeleteServiceTest {
 
     @BeforeEach
     void setUp() throws ApiErrorResponseException, URIValidationException {
+        when(apiProperties.alphabeticalSearchUri()).thenReturn("/alphabetical-search/companies");
         when(apiClientService.getInternalApiClient()).thenReturn(internalApiClientSupplier);
         when(internalApiClientSupplier.get()).thenReturn(internalApiClient);
         when(internalApiClient.privateSearchResourceHandler()).thenReturn(privateSearchResourceHandler);

@@ -18,6 +18,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import uk.gov.companieshouse.alphabeticalcompanysearchconsumer.config.ApiProperties;
 import uk.gov.companieshouse.alphabeticalcompanysearchconsumer.mapper.CompanyProfileMapper;
 import uk.gov.companieshouse.api.InternalApiClient;
 import uk.gov.companieshouse.api.error.ApiErrorResponseException;
@@ -48,6 +49,9 @@ class UpsertServiceTest {
     private Supplier<InternalApiClient> internalApiClientSupplier;
 
     @Mock
+    private ApiProperties apiProperties;
+
+    @Mock
     private InternalApiClient internalApiClient;
 
     @Mock
@@ -70,6 +74,7 @@ class UpsertServiceTest {
 
     @BeforeEach
     void setUp() {
+        when(apiProperties.alphabeticalSearchUri()).thenReturn("/alphabetical-search/companies");
         when(companyProfileMapper.mapToCompanyProfile(anyString())).thenReturn(companyProfileApi);
         when(apiClientService.getInternalApiClient()).thenReturn(internalApiClientSupplier);
         when(internalApiClientSupplier.get()).thenReturn(internalApiClient);
